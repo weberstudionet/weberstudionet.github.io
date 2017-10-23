@@ -14,3 +14,5 @@ on a regular basis.
   * 2017-10-20 WordPress Feed exporter in beta for copying posts from other sources into static form 
   * 2017-10-21 Further work on automated Site Map and Site Map Index generator
   * Add CNAME to begin testing DNS resolution to initial static commits
+  * 2017-10-22 CNAME works but not for SSL :( Add #issue to the scrum
+  * 2017-10-23 SiteMap generator with SHA 384 integrity hash attributes pass Google Standard
