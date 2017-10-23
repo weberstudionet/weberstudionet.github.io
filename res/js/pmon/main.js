@@ -21,7 +21,12 @@ var init = {
   method: 'get'
 };
 
-var userId = getParameterByName('id').replace(/</g, "&lt;").replace(/>/g, "&gt;");
+var userId = getParameterByName('id');
+if (userId != null) {
+  userId.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+} else {
+  userId = 'listings';
+}
   $.get('http://weberstudio.net/res/js/pmon/'+userId+'.json', function(data) {
     $('.dropdown-button').dropdown({
       inDuration: 300,
