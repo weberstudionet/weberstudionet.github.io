@@ -13,69 +13,78 @@
       <a href="#" class="brand-logo center">WeberStudio.Net's Augmented Playground</a>
     </div>
   </nav>
+  <div class="row">
+    <a href="?id=ked"><img src="/res/img/pmon/ked.jpg" alt="" style="width:31%;"></a>
+    <a href="?id=illusionzzz"><img src="/res/img/pmon/illusionzzz.jpg" alt="" style="width:31%;"></a>
+    <a href="?id=rahman"><img src="/res/img/pmon/rahman.jpg" alt="" style="width:31%;"></a>
+    <a href="?id=sky"><img src="/res/img/pmon/sky.jpg" alt="" style="width:31%;"></a>
+    <a href="?id=studio"><img src="/res/img/pmon/studio.jpg" alt="" style="width:31%;"></a>
+    <a href="?id=white"><img src="/res/img/pmon/white.jpg" alt="" style="width:31%;"></a>
+  </div>
 <!-- thanks ivgo.info/userdata ?id= -->
-<div id="app">
-<div class="center-align" style="overflow: scroll;">
-<div style="min-width: 500px; padding-top: 5px; padding-bottom: 5px;">
-<a class="waves-effect waves-light btn teal lighten-2" v-on:click="ivSort" v-bind:class="{ ' teal darken-3': isSortBy('iv')}">IV</a>
-<a class="waves-effect waves-light btn teal lighten-2" v-on:click="cpSort" v-bind:class="{ ' teal darken-3': isSortBy('cp')}">CP</a>
-<a class="waves-effect waves-light btn teal lighten-2" v-on:click="recentSort" v-bind:class="{ ' teal darken-3': isSortBy('recent')}">RECENT</a>
-<a class="waves-effect waves-light btn teal lighten-2" v-on:click="nameSort" v-bind:class="{ ' teal darken-3': isSortBy('name')}">NAME</a>
-<a class="waves-effect waves-light btn teal lighten-2" v-on:click="pokedexSort" v-bind:class="{ ' teal darken-3': isSortBy('pokedex')}">NUMBER</a>
-</div>
-</div>
-<div class="row">
-<pokemon-item v-for="pokemon in sortedData" v-bind:pokemon="pokemon"></pokemon-item>
-</div>
-</div>
-
+  <div id="app">
+    <div class="center-align" style="overflow: scroll;">
+      <div style="min-width: 500px; padding-top: 5px; padding-bottom: 5px;">
+        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="ivSort" v-bind:class="{ ' teal darken-3': isSortBy('iv')}">IV</a>
+        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="cpSort" v-bind:class="{ ' teal darken-3': isSortBy('cp')}">CP</a>
+        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="recentSort" v-bind:class="{ ' teal darken-3': isSortBy('recent')}">RECENT</a>
+        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="nameSort" v-bind:class="{ ' teal darken-3': isSortBy('name')}">NAME</a>
+        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="pokedexSort" v-bind:class="{ ' teal darken-3': isSortBy('pokedex')}">NUMBER</a>
+      </div>
+    </div>
+    <div class="row">
+      <pokemon-item v-for="pokemon in sortedData" v-bind:pokemon="pokemon"></pokemon-item>
+    </div>
+  </div>
 <template id="pokemonCard">
 <div class= "col s4 m4"> 
-<div class="mobile" style="background-repeat: no-repeat; background-size: 100px; background-position: center;" v-bind:style="{ backgroundImage: 'url(' + pokemon.imgLink + ')' }">
-  <div class="card card-panel center-align" style="padding:3px; background-color: rgba(255, 255, 255, 0.66);">
-    <h6 style="font-size: 1.4rem;">CP {{pokemon.cp}}</h5>
-    <h4 style="font-weight: bold;" v-bind:style="{ color:pokemon.rankColor}">{{pokemon.rank}}</h4>
-    <h6 style="font-size: 1.4rem;" v-bind:style="{ color:pokemon.rankColor}">{{((pokemon.individualAttack+pokemon.individualDefense+pokemon.individualStamina)/0.45).toFixed(1)}}%</h6>
-    <h6 style="font-size: 1.0rem; font-weight: bold;">{{pokemon.name}}</h6>
+  <div class="mobile" style="background-repeat: no-repeat; background-size: 100px; background-position: center;" v-bind:style="{ backgroundImage: 'url(' + pokemon.imgLink + ')' }">
+    <div class="card card-panel center-align" style="padding:3px; background-color: rgba(255, 255, 255, 0.66);">
+      <h6 style="font-size: 1.4rem;">CP {{pokemon.cp}}</h5>
+      <h4 style="font-weight: bold;" v-bind:style="{ color:pokemon.rankColor}">{{pokemon.rank}}</h4>
+      <h6 style="font-size: 1.4rem;" v-bind:style="{ color:pokemon.rankColor}">{{((pokemon.individualAttack+pokemon.individualDefense+pokemon.individualStamina)/0.45).toFixed(1)}}%</h6>
+      <h6 style="font-size: 1.0rem; font-weight: bold;">{{pokemon.name}}</h6>
+    </div>
+  </div>
+  <div class="desktop">
+    <div class="card card-panel" style="background-color: rgba(255, 255, 255, 0.66);">
+    <div>
+      <div class="pokemon-image center-align">
+        <div class="center-align" style="display: inline-block; width: 40%;">
+          <img :src="pokemon.imgLink" style="width: 130px; height: 130px;">
+        </div>
+        <div class="center-align" style="vertical-align: top; display:inline-block; width: 40%;">
+          <h5 style="font-size: 2.2rem;">CP {{pokemon.cp}}</h5>
+          <h3 style="font-size: 3.3rem; font-weight: bold;" v-bind:style="{ color: pokemon.rankColor}">{{pokemon.rank}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="center-align"><h4 style="font-weight: bolder;">{{pokemon.name}}</h4></div>
+    <div class="pokemon-iv-table">
+      <table style="font-size:150%">
+      <thead>
+        <tr>
+            <th class="center-align">ATK</th>
+            <th class="center-align">DEF</th>
+            <th class="center-align">STA</th>
+            <th class="center-align">IV</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        <td class="center-align">{{pokemon.individualAttack ? pokemon.individualAttack:0}}</td>
+        <td class="center-align">{{pokemon.individualDefense ? pokemon.individualDefense:0}}</td>
+        <td class="center-align">{{pokemon.individualStamina ? pokemon.individualStamina:0}}</td>
+        <td class="center-align">{{((pokemon.individualAttack+pokemon.individualDefense+pokemon.individualStamina)/0.45).toFixed(1)}}%</td>
+        </tr>
+      </tbody>
+      </table>
+      <div style="font-size:150%">{{pokemon.move1.replace(/_FAST$/,'').replace('_',' ')}}</div>
+      <div style="font-size:150%">{{pokemon.move2.replace(/_FAST$/,'').replace('_',' ')}}</div>
+      <div></div>
+    </div>
   </div>
 </div>
-<div class="desktop">
-  <div class="card card-panel" style="background-color: rgba(255, 255, 255, 0.66);">
-  <div>
-            <div class="pokemon-image center-align">
-            <div class="center-align" style="display: inline-block; width: 40%;">
-              <img :src="pokemon.imgLink" style="width: 130px; height: 130px;">
-            </div>
-            <div class="center-align" style="vertical-align: top; display:inline-block; width: 40%;">
-              <h5 style="font-size: 2.2rem;">CP {{pokemon.cp}}</h5>
-              <h3 style="font-size: 3.3rem; font-weight: bold;" v-bind:style="{ color: pokemon.rankColor}">{{pokemon.rank}}</h3></div>
-            </div>
-  </div>
-  <div class="center-align"><h4 style="font-weight: bolder;">{{pokemon.name}}</h4></div>
-  <div class="pokemon-iv-table">
-        <table style="font-size:150%">
-        <thead>
-          <tr>
-              <th class="center-align">ATK</th>
-              <th class="center-align">DEF</th>
-              <th class="center-align">STA</th>
-              <th class="center-align">IV</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-          <td class="center-align">{{pokemon.individualAttack ? pokemon.individualAttack:0}}</td>
-          <td class="center-align">{{pokemon.individualDefense ? pokemon.individualDefense:0}}</td>
-          <td class="center-align">{{pokemon.individualStamina ? pokemon.individualStamina:0}}</td>
-          <td class="center-align">{{((pokemon.individualAttack+pokemon.individualDefense+pokemon.individualStamina)/0.45).toFixed(1)}}%</td>
-          </tr>
-        </tbody>
-        </table>
-        <div style="font-size:150%">{{pokemon.move1.replace(/_FAST$/,'').replace('_',' ')}}</div>
-        <div style="font-size:150%">{{pokemon.move2.replace(/_FAST$/,'').replace('_',' ')}}</div>
-        <div></div></div>
-  </div>
-  </div>
 </template>
 <script src="res/js/pmon/main.js"></script>
 </body>
