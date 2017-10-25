@@ -8,34 +8,71 @@
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <meta name="ignore" rel="stylesheet" href="res/css/pmon.css" data-res="ce05160563e1bb1a05">
   <style type="text/css">
+/*
   @media screen and (min-width: 768px) {
     .mobile {
         display: none;
     }
   }
   @media screen and (max-width: 768px) {
-      .desktop {
-          display: none;
-      }
+    .desktop {
+      display: none;
+    }
   }
+*/
+    nav {
+      display: fixed;
+    }
+    .pokemon-iv-table {
+      text-transform: capitalize;
+    }
+    .col:hover > .desktop {
+      position: fixed;
+      top: 0px;
+      background-color:#ffffff;
+      display: block;
+      z-index: 2000;
+    }
+    .desktop {
+      position: relative;
+      width: 95%;
+      display: none;
+    }
+    .desktop:hover {
+      display: none;
+    }
   </style>
 </head>
 <body>
+<div id="app">
+<div class="navbar-fixed nav-extended">
   <nav class="teal lighten-2">
     <div class="nav-wrapper container">
-      <a href="#" class="brand-logo center">WeberStudio.Net's Augmented Playground</a>
+      <a href="#" class="brand-logo center">Augmented Playground</a>
+    </div>
+    <div class="nav-content">
+      <ul class="tabs tabs-transparent">
+        <li class="tab"><a class="teal lighten-2" v-on:click="ivSort" v-bind:class="{ ' teal darken-3': isSortBy('iv')}">IV</a></li>
+        <li class="tab"><a class="teal lighten-2" v-on:click="cpSort" v-bind:class="{ ' teal darken-3': isSortBy('cp')}">CP</a></li>
+        <li class="tab"><a class="teal lighten-2" v-on:click="recentSort" v-bind:class="{ ' teal darken-3': isSortBy('recent')}">RECENT</a></li>
+        <li class="tab"><a class="teal lighten-2" v-on:click="nameSort" v-bind:class="{ ' teal darken-3': isSortBy('name')}">NAME</a></li>
+        <li class="tab"><a class="teal lighten-2" v-on:click="pokedexSort" v-bind:class="{ ' teal darken-3': isSortBy('pokedex')}">NUMBER</a></li>
+      </ul>
     </div>
   </nav>
-  <div class="row">
-    <a href="?id=ked"><img src="/res/img/pmon/ked.jpg" alt="" style="width:31%;"></a>
-    <a href="?id=illusionzzz"><img src="/res/img/pmon/illusionzzz.jpg" alt="" style="width:31%;"></a>
-    <a href="?id=rahman"><img src="/res/img/pmon/rahman.jpg" alt="" style="width:31%;"></a>
-    <a href="?id=sky"><img src="/res/img/pmon/sky.jpg" alt="" style="width:31%;"></a>
-    <a href="?id=studio"><img src="/res/img/pmon/studio.jpg" alt="" style="width:31%;"></a>
-    <a href="?id=white"><img src="/res/img/pmon/white.jpg" alt="" style="width:31%;"></a>
+</div>
+  <div class="center-align" style="overflow-x: scroll;">
+    <div class="row">
+      <a href="?id=ked"><img src="/res/img/pmon/ked.jpg" alt="" style="width:31%;"></a>
+      <a href="?id=illusionzzz"><img src="/res/img/pmon/illusionzzz.jpg" alt="" style="width:31%;"></a>
+      <a href="?id=rahman"><img src="/res/img/pmon/rahman.jpg" alt="" style="width:31%;"></a>
+      <a href="?id=sky"><img src="/res/img/pmon/sky.jpg" alt="" style="width:31%;"></a>
+      <a href="?id=studio"><img src="/res/img/pmon/studio.jpg" alt="" style="width:31%;"></a>
+      <a href="?id=white"><img src="/res/img/pmon/white.jpg" alt="" style="width:31%;"></a>
+    </div>
   </div>
 <!-- thanks ivgo.info/userdata ?id= -->
-  <div id="app">
+  <!--div id="app" -->
     <div class="center-align" style="overflow: scroll;">
       <div style="min-width: 500px; padding-top: 5px; padding-bottom: 5px;">
         <a class="waves-effect waves-light btn teal lighten-2" v-on:click="ivSort" v-bind:class="{ ' teal darken-3': isSortBy('iv')}">IV</a>
