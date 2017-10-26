@@ -16,3 +16,6 @@ on a regular basis.
   * Add CNAME to begin testing DNS resolution to initial static commits
   * 2017-10-22 CNAME works but not for SSL :( Add #issue to the scrum
   * 2017-10-23 SiteMap generator with SHA 384 integrity hash attributes pass Google Standard
+  * 2017-10-24 Buried Mother-in-Law
+  * 2017-10-25 Wrestled with [Materialize CSS](http://materializecss.com/) and VueJS while preparing for the ICO of the [ERT eSport Reward Token](http://esports.com)
+  * 2017-10-26 [Google Adsense](https://www.google.com/adsense)
