@@ -13,7 +13,6 @@ var quotes = {
   },
   load: function() {
     var self = this;
-    console.log(self);
     var ran = Math.floor(Math.random() * self.quotes.length),
       cursor = 0;
     self.current.quote = self.quotes[ran].text;
