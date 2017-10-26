@@ -1,3 +1,4 @@
+/*
 $('.dropdown-button').dropdown({
     inDuration: 300,
     outDuration: 225,
@@ -7,7 +8,7 @@ $('.dropdown-button').dropdown({
     belowOrigin: false, // Displays dropdown below the button
     alignment: 'left' // Displays dropdown with edge aligned to the left of button
   }
-);
+);*/
 
 Vue.component('pokemon-item', {
   props: ['pokemon'],
@@ -40,14 +41,14 @@ Vue.component('pokemon-player', {
       constrain_width: false, // Does not change width of dropdown to that of the activator
       hover: true, // Activate on hover
       gutter: 0, // Spacing from edge
-      belowOrigin: false, // Displays dropdown below the button
-      alignment: 'left' // Displays dropdown with edge aligned to the left of button
+      belowOrigin: true, // Displays dropdown below the button
+      //alignment: 'left' // Displays dropdown with edge aligned to the left of button
     }
   );
   var dataArr = [];
   for(var i=0;i<data.length;i++){
     var e=data[i];
-    if(e.inventoryItemData.pokemonData && !e.inventoryItemData.pokemonData.isEgg){
+    if(e.inventoryItemData !== undefined && e.inventoryItemData.pokemonData && !e.inventoryItemData.pokemonData.isEgg){
       var pokemon = e.inventoryItemData.pokemonData;
       if(idMapper[pokemon.pokemonId]) {
           pokemon.id = idMapper[pokemon.pokemonId];
@@ -121,6 +122,16 @@ Vue.component('pokemon-player', {
             }
             return a.id - b.id;
           });
+          // add health
+        } else if(this.sortKey == 'health') {
+          return this.pokemons.slice().sort(function (a, b) {
+            if(b.staminaMax == a.staminaMax) {
+              var aValue = a.staminaMax? a.staminaMax:0;
+              var bValue = b.staminaMax? b.staminaMax:0;
+              return bValue - aValue;
+            }
+            return b.staminaMax - a.staminaMax; //max health on top
+          });
         } else {
           return this.pokemons.slice().sort(function (a, b) {
             var aValue = a.creationTimeMs? a.creationTimeMs:0;
@@ -141,6 +152,8 @@ Vue.component('pokemon-player', {
           return '#';
         } else if(this.sortKey == 'recent') {
           return 'Recent';
+        } else if(this.sortKey == 'health') {
+          return '<3';
         }
       }
     },
@@ -165,7 +178,10 @@ Vue.component('pokemon-player', {
       },
       recentSort: function(event) {
         this.sortKey = 'recent';
-      } 
+      },
+      healthSort: function(event) {
+        this.sortKey = 'health';
+      }
     }
   });
 });
