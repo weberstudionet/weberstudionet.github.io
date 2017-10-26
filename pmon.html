@@ -3,6 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -20,8 +21,8 @@
     }
   }
 */
-    nav {
-      display: fixed;
+    li.tab > a > i.material-icons {
+      line-height: 2em;
     }
     .pokemon-iv-table {
       text-transform: capitalize;
@@ -29,6 +30,7 @@
     .col:hover > .desktop {
       position: fixed;
       top: 0px;
+      left: 2.5%;
       background-color:#ffffff;
       display: block;
       z-index: 2000;
@@ -45,23 +47,28 @@
 </head>
 <body>
 <div id="app">
-<div class="navbar-fixed nav-extended">
-  <nav class="teal lighten-2">
-    <div class="nav-wrapper container">
-      <a href="#" class="brand-logo center">Augmented Playground</a>
-    </div>
-    <div class="nav-content">
-      <ul class="tabs tabs-transparent">
-        <li class="tab"><a class="teal lighten-2" v-on:click="ivSort" v-bind:class="{ ' teal darken-3': isSortBy('iv')}">IV</a></li>
-        <li class="tab"><a class="teal lighten-2" v-on:click="cpSort" v-bind:class="{ ' teal darken-3': isSortBy('cp')}">CP</a></li>
-        <li class="tab"><a class="teal lighten-2" v-on:click="recentSort" v-bind:class="{ ' teal darken-3': isSortBy('recent')}">RECENT</a></li>
-        <li class="tab"><a class="teal lighten-2" v-on:click="nameSort" v-bind:class="{ ' teal darken-3': isSortBy('name')}">NAME</a></li>
-        <li class="tab"><a class="teal lighten-2" v-on:click="pokedexSort" v-bind:class="{ ' teal darken-3': isSortBy('pokedex')}">NUMBER</a></li>
-      </ul>
-    </div>
-  </nav>
-</div>
-  <div class="center-align" style="overflow-x: scroll;">
+  <div class="navbar-fixed">
+    <nav class="nav-extended teal lighten-2">
+      <div class="nav-wrapper container">
+        <a href="#" class="brand-logo center">Augmented Playground</a>
+        <ul class="right">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><i class="material-icons">more_vert</i></a></li>
+        </ul>
+      </div>
+      <div id="dropdown1" class="nav-content dropdown-content"> <!-- dropdown-content -->
+        <ul class="tabs tabs-transparent">
+          <li class="tab"><a class="teal lighten-2" alt="Player Selection" href="#playerSelection"><i class="material-icons">&#xE63D;</i></a>
+          <li class="tab"><a class="teal lighten-2" v-on:click="ivSort" v-bind:class="{ ' teal darken-3': isSortBy('iv')}" role="button">IV</a></li>
+          <li class="tab"><a class="teal lighten-2" v-on:click="cpSort" v-bind:class="{ ' teal darken-3': isSortBy('cp')}" role="button">CP</a></li>
+          <li class="tab"><a class="teal lighten-2" v-on:click="healthSort" v-bind:class="{ ' teal darken-3': isSortBy('health')}" role="button"><i class="material-icons" data-name="favorite_border">&#xE87E;</i></a></li>
+          <li class="tab"><a class="teal lighten-2" v-on:click="recentSort" v-bind:class="{ ' teal darken-3': isSortBy('recent')}" role="button"><i class="material-icons" data-name="watch_later">&#xE924;</i></a></li>
+          <li class="tab"><a class="teal lighten-2" v-on:click="nameSort" v-bind:class="{ ' teal darken-3': isSortBy('name')}" role="button">A-Z</a></li>
+          <li class="tab"><a class="teal lighten-2" v-on:click="pokedexSort" v-bind:class="{ ' teal darken-3': isSortBy('pokedex')}" role="button">#</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div id="playerSelection" class="center-align" style="overflow-x: scroll;">
     <div class="row">
       <a href="?id=ked"><img src="/res/img/pmon/ked.jpg" alt="" style="width:31%;"></a>
       <a href="?id=illusionzzz"><img src="/res/img/pmon/illusionzzz.jpg" alt="" style="width:31%;"></a>
@@ -73,68 +80,60 @@
   </div>
 <!-- thanks ivgo.info/userdata ?id= -->
   <!--div id="app" -->
-    <div class="center-align" style="overflow: scroll;">
-      <div style="min-width: 500px; padding-top: 5px; padding-bottom: 5px;">
-        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="ivSort" v-bind:class="{ ' teal darken-3': isSortBy('iv')}">IV</a>
-        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="cpSort" v-bind:class="{ ' teal darken-3': isSortBy('cp')}">CP</a>
-        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="recentSort" v-bind:class="{ ' teal darken-3': isSortBy('recent')}">RECENT</a>
-        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="nameSort" v-bind:class="{ ' teal darken-3': isSortBy('name')}">NAME</a>
-        <a class="waves-effect waves-light btn teal lighten-2" v-on:click="pokedexSort" v-bind:class="{ ' teal darken-3': isSortBy('pokedex')}">NUMBER</a>
-      </div>
-    </div>
-    <div class="row">
-      <pokemon-item v-for="pokemon in sortedData" v-bind:pokemon="pokemon"></pokemon-item>
-    </div>
-  </div>
-<template id="pokemonCard">
-<div class= "col s4 m4"> 
-  <div class="mobile" style="background-repeat: no-repeat; background-size: 100px; background-position: center;" v-bind:style="{ backgroundImage: 'url(' + pokemon.imgLink + ')' }">
-    <div class="card card-panel center-align" style="padding:3px; background-color: rgba(255, 255, 255, 0.66);">
-      <h6 style="font-size: 1.4rem;">CP {{pokemon.cp}}</h5>
-      <h4 style="font-weight: bold;" v-bind:style="{ color:pokemon.rankColor}">{{pokemon.rank}}</h4>
-      <h6 style="font-size: 1.4rem;" v-bind:style="{ color:pokemon.rankColor}">{{((pokemon.individualAttack+pokemon.individualDefense+pokemon.individualStamina)/0.45).toFixed(1)}}%</h6>
-      <h6 style="font-size: 1.0rem; font-weight: bold;">{{pokemon.name}}</h6>
-    </div>
-  </div>
-  <div class="desktop">
-    <div class="card card-panel" style="background-color: rgba(255, 255, 255, 0.66);">
-    <div>
-      <div class="pokemon-image center-align">
-        <div class="center-align" style="display: inline-block; width: 40%;">
-          <img :src="pokemon.imgLink" style="width: 130px; height: 130px;">
-        </div>
-        <div class="center-align" style="vertical-align: top; display:inline-block; width: 40%;">
-          <h5 style="font-size: 2.2rem;">CP {{pokemon.cp}}</h5>
-          <h3 style="font-size: 3.3rem; font-weight: bold;" v-bind:style="{ color: pokemon.rankColor}">{{pokemon.rank}}</h3>
-        </div>
-      </div>
-    </div>
-    <div class="center-align"><h4 style="font-weight: bolder;">{{pokemon.name}}</h4></div>
-    <div class="pokemon-iv-table">
-      <table style="font-size:150%">
-      <thead>
-        <tr>
-            <th class="center-align">ATK</th>
-            <th class="center-align">DEF</th>
-            <th class="center-align">STA</th>
-            <th class="center-align">IV</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-        <td class="center-align">{{pokemon.individualAttack ? pokemon.individualAttack:0}}</td>
-        <td class="center-align">{{pokemon.individualDefense ? pokemon.individualDefense:0}}</td>
-        <td class="center-align">{{pokemon.individualStamina ? pokemon.individualStamina:0}}</td>
-        <td class="center-align">{{((pokemon.individualAttack+pokemon.individualDefense+pokemon.individualStamina)/0.45).toFixed(1)}}%</td>
-        </tr>
-      </tbody>
-      </table>
-      <div style="font-size:150%">{{pokemon.move1.replace(/_FAST$/,'').replace('_',' ')}}</div>
-      <div style="font-size:150%">{{pokemon.move2.replace(/_FAST$/,'').replace('_',' ')}}</div>
-      <div></div>
-    </div>
+  <div id="pokemonStorage" class="row">
+    <pokemon-item v-for="pokemon in sortedData" v-bind:pokemon="pokemon"></pokemon-item>
   </div>
 </div>
+<template id="pokemonCard">
+  <div class= "col s4 m4"> 
+    <div class="mobile" style="background-repeat: no-repeat; background-size: 100px; background-position: center;" v-bind:style="{ backgroundImage: 'url(' + pokemon.imgLink + ')' }">
+      <div class="card card-panel center-align" style="padding:3px; background-color: rgba(255, 255, 255, 0.66);">
+        <h6 style="font-size: 1.4rem;">CP {{pokemon.cp}}</h5>
+        <h4 style="font-weight: bold;" v-bind:style="{ color:pokemon.rankColor}">{{pokemon.rank}}</h4>
+        <h6 style="font-size: 1.4rem;" v-bind:style="{ color:pokemon.rankColor}">{{((pokemon.individualAttack+pokemon.individualDefense+pokemon.individualStamina)/0.45).toFixed(1)}}%</h6>
+        <h6 style="font-size: 1.0rem; font-weight: bold;">{{pokemon.name}}</h6>
+      </div>
+    </div>
+    <div class="desktop">
+      <div class="card card-panel" style="background-color: rgba(255, 255, 255, 0.66);">
+      <div>
+        <div class="pokemon-image center-align">
+          <div class="center-align" style="display: inline-block; width: 40%;">
+            <img :src="pokemon.imgLink" style="width: 130px; height: 130px;">
+          </div>
+          <div class="center-align" style="vertical-align: top; display:inline-block; width: 40%;">
+            <h5 style="font-size: 2.2rem;">CP {{pokemon.cp}}</h5>
+            <h3 style="font-size: 3.3rem; font-weight: bold;" v-bind:style="{ color: pokemon.rankColor}">{{pokemon.rank}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="center-align"><h4 style="font-weight: bolder;">{{pokemon.name}}</h4></div>
+      <div class="pokemon-iv-table">
+        <table style="font-size:150%">
+        <thead>
+          <tr>
+              <th class="center-align">ATK</th>
+              <th class="center-align">DEF</th>
+              <th class="center-align">STA</th>
+              <th class="center-align">IV</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+          <td class="center-align">{{pokemon.individualAttack ? pokemon.individualAttack:0}}</td>
+          <td class="center-align">{{pokemon.individualDefense ? pokemon.individualDefense:0}}</td>
+          <td class="center-align">{{pokemon.individualStamina ? pokemon.individualStamina:0}}</td>
+          <td class="center-align">{{((pokemon.individualAttack+pokemon.individualDefense+pokemon.individualStamina)/0.45).toFixed(2)}}%</td>
+          </tr>
+        </tbody>
+        </table>
+        <div style="font-size:150%">{{pokemon.move1.replace(/_FAST$/,'').replace('_',' ')}}</div>
+        <div style="font-size:150%">{{pokemon.move2.replace(/_FAST$/,'').replace('_',' ')}}</div>
+        <div></div>
+        <div><a class="btn teal" role="button">Close</a></div>
+      </div>
+    </div>
+  </div>
 </template>
 <script src="res/js/pmon/main.js"></script>
 </body>
