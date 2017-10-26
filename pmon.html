@@ -8,6 +8,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <meta name="ignore" rel="stylesheet" href="res/css/pmon.css" data-res="ce05160563e1bb1a05">
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-2105336622460035",
+      enable_page_level_ads: true
+    });
+  </script>
   <style type="text/css">
 /*
   @media screen and (min-width: 768px) {
@@ -29,7 +36,7 @@
     }
     .col:hover > .desktop {
       position: fixed;
-      top: 0px;
+      bottom: 0px;
       left: 2.5%;
       background-color:#ffffff;
       display: block;
@@ -50,20 +57,20 @@
   <div class="navbar-fixed">
     <nav class="nav-extended teal lighten-2">
       <div class="nav-wrapper container">
-        <a href="#" class="brand-logo center">Augmented Playground</a>
+        <a href="#" class="brand-logo left">WS: Augmented Play</a>
         <ul class="right">
-            <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><i class="material-icons">more_vert</i></a></li>
+            <li><a class="dropdown-button right" href="#!" data-activates="dropdown1"><i class="material-icons">more_vert</i></a></li>
         </ul>
       </div>
-      <div id="dropdown1" class="nav-content dropdown-content"> <!-- dropdown-content -->
-        <ul class="tabs tabs-transparent">
-          <li class="tab"><a class="teal lighten-2" alt="Player Selection" href="#playerSelection"><i class="material-icons">&#xE63D;</i></a>
-          <li class="tab"><a class="teal lighten-2" v-on:click="ivSort" v-bind:class="{ ' teal darken-3': isSortBy('iv')}" role="button">IV</a></li>
-          <li class="tab"><a class="teal lighten-2" v-on:click="cpSort" v-bind:class="{ ' teal darken-3': isSortBy('cp')}" role="button">CP</a></li>
-          <li class="tab"><a class="teal lighten-2" v-on:click="healthSort" v-bind:class="{ ' teal darken-3': isSortBy('health')}" role="button"><i class="material-icons" data-name="favorite_border">&#xE87E;</i></a></li>
-          <li class="tab"><a class="teal lighten-2" v-on:click="recentSort" v-bind:class="{ ' teal darken-3': isSortBy('recent')}" role="button"><i class="material-icons" data-name="watch_later">&#xE924;</i></a></li>
-          <li class="tab"><a class="teal lighten-2" v-on:click="nameSort" v-bind:class="{ ' teal darken-3': isSortBy('name')}" role="button">A-Z</a></li>
-          <li class="tab"><a class="teal lighten-2" v-on:click="pokedexSort" v-bind:class="{ ' teal darken-3': isSortBy('pokedex')}" role="button">#</a></li>
+      <div class="nav-content"> <!-- dropdown-content -->
+        <ul id="dropdown1" class="tabs tabs-transparent">
+          <li class="tab"><a alt="Player Selection" href="#playerSelection" class="teal lighten-2" role="button"><i class="material-icons" data-name="account_circle">&#xE853;</i></a>
+          <li class="tab"><a active alt="IV Stats" href="#pokemonStorage" class="teal lighten-2" v-on:click="ivSort" v-bind:class="{ ' teal darken-3': isSortBy('iv')}" role="button">IV</a></li>
+          <li class="tab"><a alt="CP Stats" href="#pokemonStorage" class="teal lighten-2" v-on:click="cpSort" v-bind:class="{ ' teal darken-3': isSortBy('cp')}" role="button">CP</a></li>
+          <li class="tab"><a alt="Health Stats" href="#pokemonStorage" class="teal lighten-2" v-on:click="healthSort" v-bind:class="{ ' teal darken-3': isSortBy('health')}" role="button"><i class="material-icons" data-name="favorite_border">&#xE87E;</i></a></li>
+          <li class="tab"><a alt="Recent" href="#pokemonStorage" class="teal lighten-2" v-on:click="recentSort" v-bind:class="{ ' teal darken-3': isSortBy('recent')}" role="button"><i class="material-icons" data-name="watch_later">&#xE924;</i></a></li>
+          <li class="tab"><a alt="Name" href="#pokemonStorage" class="teal lighten-2" v-on:click="nameSort" v-bind:class="{ ' teal darken-3': isSortBy('name')}" role="button">A-Z</a></li>
+          <li class="tab"><a alt="Pokedex" href="#pokemonStorage" class="teal lighten-2" v-on:click="pokedexSort" v-bind:class="{ ' teal darken-3': isSortBy('pokedex')}" role="button">#</a></li>
         </ul>
       </div>
     </nav>
@@ -80,7 +87,7 @@
   </div>
 <!-- thanks ivgo.info/userdata ?id= -->
   <!--div id="app" -->
-  <div id="pokemonStorage" class="row">
+  <div farts="pokemonStorage" class="row">
     <pokemon-item v-for="pokemon in sortedData" v-bind:pokemon="pokemon"></pokemon-item>
   </div>
 </div>
