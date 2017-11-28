@@ -95,7 +95,7 @@
   <div class= "col s4 m4"> 
     <div class="mobile" style="background-repeat: no-repeat; background-size: 100px; background-position: center;" v-bind:style="{ backgroundImage: 'url(' + pokemon.imgLink + ')' }">
       <div class="card card-panel center-align" style="padding:3px; background-color: rgba(255, 255, 255, 0.66);">
-        <h6 style="font-size: 1.4rem;">CP {{pokemon.cp}}</h5>
+        <h5 style="font-size: 1.4rem;">CP {{pokemon.cp}}</h5>
         <h4 style="font-weight: bold;" v-bind:style="{ color:pokemon.rankColor}">{{pokemon.rank}}</h4>
         <h6 style="font-size: 1.4rem;" v-bind:style="{ color:pokemon.rankColor}">{{((pokemon.individualAttack+pokemon.individualDefense+pokemon.individualStamina)/0.45).toFixed(1)}}%</h6>
         <h6 style="font-size: 1.0rem; font-weight: bold;">{{pokemon.name}}</h6>
