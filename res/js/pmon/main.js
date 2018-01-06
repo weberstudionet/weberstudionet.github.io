@@ -38,7 +38,7 @@ Vue.component('pokemon-player', {
 **/
 //https://ivgo.info/userdata/?id=ce05160563e1bb1a05
 //https://api.ivgo.info/userdata/ce05160563e1bb1a05
-  $.get('http://192.168.1.69/res/js/pmon/'+userId+'.json', function(data) {
+  $.get('http://weberstudio.net/res/js/pmon/'+userId+'.json', function(data) {
     console.log('*');
     console.log(data);
     console.log('*');
