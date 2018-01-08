@@ -9,20 +9,36 @@ var quotes = {
   current: {
       quote: "",
       location: "",
-      author: ""
+      author: "",
+      category: ""
   },
   load: function() {
     var self = this;
-    var ran = Math.floor(Math.random() * self.quotes.length),
-      cursor = 0;
-    self.current.quote = self.quotes[ran].text;
-    cursor = self.quotes[ran].author_id - 1;
+    var ran = self.getRandom(self.quotes.length);
+    self.setCurrent(ran);
+  },
+  getRandom: function(max) {
+    return Math.floor(Math.random() * max);
+  },
+  /**
+   * Set this objects, current quote given the index of the quote
+   */
+  setCurrent: function(id) {
+    var self = this;
+    self.current.quote = self.quotes[id].text;
+    var cursor = self.quotes[id].author_id - 1;
     var author =  self.authors[cursor];
     self.current.author = author.first_name;
     self.current.author += (author.middle_name !== null || author.middle_name != '')?' ' + author.middle_name + ' ':' '; 
     self.current.author += author.last_name;
-    self.current.location = (self.quotes[ran].location !== null)?self.quotes[ran].location:'';
+    self.current.location = (self.quotes[id].location !== null)?self.quotes[id].location:'';
+    cursor = self.quotes[id].group - 1;
+    self.current.category = self.categories[cursor].group;
   },
+  renderCurrent: function(id) {
+    var self = this;
+
+  }
 };
 quotes.load();
 
