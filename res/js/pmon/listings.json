@@ -1,0 +1,33 @@
+[
+{"playerData":{
+  "name": "Ms. White Goat",
+  "url" : "white.json",
+  "img": "/res/img/pmon/white.jpg",
+  "level" : "31",
+  "team" : "Mystic"
+}},{"playerData":{
+  "name": "Illusionzzz",
+  "url": "",
+  "img": "/res/img/pmon/illusionzzz.jpg",
+  "level": "31",
+  "team": "Instinct" 
+}},{"playerData":{
+  "name": "WeberStudio",
+  "url": "studio.json",
+  "img": "/res/img/pmon/studio.jpg",
+  "level": "25",
+  "team": "Instinct"
+}},{"playerData":{
+  "name": "Rahman Goat",
+  "url": "rahman.json",
+  "img": "/res/img/pmon/rahman.jpg",
+  "level": "31",
+  "team": "Mystic" 
+}},{"playerData":{
+  "name": "Ked",
+  "url": "ked.json",
+  "img": "/res/img/pmon/ked.jpg",
+  "level": "33",
+  "team": "Mystic"
+}}
+]

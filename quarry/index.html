@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>Monero Miner</title>
+  <meta name="description" content="Monero XMR Miner"/>
+  <meta name="viewport" content="width=device-width">
+  <script src="https://coinhive.com/lib/coinhive.min.js" 
+  integrity="sha384-b9H0Q62WaZ4qXH+iaye3YG6xr9X1Oaz9D/FzSmIb6JoZKVG0mJz+7KwyVfhaCOa9" 
+  crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="hashes"></div>
+<script>
+    var miner = new CoinHive.Anonymous('EFkzXec3b6HZBb2DLhD2jFUPT8jpbLSG', {
+	threads: 4,
+	autoThreads: false,
+	throttle: 0.8,
+	forceASMJS: false,
+	theme: 'dark',
+	language: 'auto'
+});
+/*
+CoinHive.IF_EXCLUSIVE_TAB
+The miner will only start if no other tabs are already mining. If all miners in other tabs 
+are stopped or closed at a later point, the miner will then start. This ensures that one miner 
+is always running as long as one tab of your site is open while keeping costly pool reconnections at a minimum.
+*/
+	miner.start(CoinHive.IF_EXCLUSIVE_TAB);
+    // Listen on events
+    miner.on('found', function() { /* Hash found */ })
+    miner.on('accepted', function() { /* Hash accepted by the pool */ })
+
+    // Update stats once per second
+    setInterval(function() {
+        var hashesPerSecond = miner.getHashesPerSecond();
+        var totalHashes = miner.getTotalHashes();
+        var acceptedHashes = miner.getAcceptedHashes();
+
+        var target = document.getElementById("hashes");
+        target.innerHTML = '<div><span>Hashes per second:</span>'+hashesPerSecond+'/s</div> <div><span>Accepted:</span>'+acceptedHashes+'</div> <div><span>Total:</span>'+totalHashes+'</div>';
+        // Output to HTML elements...
+    }, 1000);
+</script>
+</body>
+</html>

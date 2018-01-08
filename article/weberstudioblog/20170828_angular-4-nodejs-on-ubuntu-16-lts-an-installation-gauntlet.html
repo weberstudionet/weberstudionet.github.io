@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Angular 4 &amp; NodeJS on Ubuntu 16 LTS; an Installation Gauntlet</title>
+  <meta property="author" content="WeberStudio.net" />
+  <meta property="description" content="&#160; “This must be a real horrorshow film if you&#8217;re so keen on my viddying it.” ~ Anthony Burgess, A Clockwork Orange And what a horror show it has been, trying to quickly set up a Vagrant virtual machine, based on HashiCorp&#8217;s ubuntu/xenial64 base-box image. I just know this will continue to be an issue [&#8230;]" />
+  <meta property="keywords" content="Systems, Technology, Angular, NodeJS, Programming, Ubuntu, Vagrant, Virtual Box, " />
+  <meta property="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="guid" content="1715" />
+  <link rel="dns-prefetch" href="//weberstudio.net">
+  <link rel="dns-prefetch" href="//s2.wp.com">
+  <link rel="dns-prefetch" href="//s1.wp.com">
+  <link rel="dns-prefetch" href="//s0.wp.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Angular 4 & NodeJS on Ubuntu 16 LTS; an Installation Gauntlet" />
+  <meta property="og:url" content="https://weberstudioblog.wordpress.com/2017/09/23/singapores-fledgling-cashless-society/" />
+  <meta property="og:description" content="&#160; “This must be a real horrorshow film if you&#8217;re so keen on my viddying it.” ~ Anthony Burgess, A Clockwork Orange And what a horror show it has been, trying to quickly set up a Vagrant virtual machine, based on HashiCorp&#8217;s ubuntu/xenial64 base-box image. I just know this will continue to be an issue [&#8230;]" />
+  <meta property="article:published_time" content="2017-08-28T14:57:12+00:00" />
+  <meta property="article:modified_time" content="2017-08-28T14:57:12+00:00" />
+  <meta property="og:site_name" content="WEBerStudio.net" />
+  <meta property="og:image" content="https://weberstudioblog.files.wordpress.com/2017/02/1.jpeg?w=1200" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="800" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="fb:app_id" content="249643311490" />
+  <meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+  <meta name="twitter:site" content="@wordpressdotcom" />
+  <meta name="twitter:text:title" content="Angular 4 & NodeJS on Ubuntu 16 LTS; an Installation Gauntlet" />
+  <meta name="twitter:image:src" content="https://weberstudioblog.files.wordpress.com/2017/02/1.jpeg?w=640" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:width" content="1200" />
+  <meta property="og:height" content="800" />
+</head>
+
+  <div class="article">
+    <h1>Angular 4 & NodeJS on Ubuntu 16 LTS; an Installation Gauntlet</h1>
+<p>&nbsp;</p>
+<blockquote><p>“This must be a real horrorshow film if you&#8217;re so keen on my viddying it.”<br />
+~ Anthony Burgess, A Clockwork Orange</p></blockquote>
+<p>And what a horror show it has been, trying to quickly set up a Vagrant virtual machine, based on HashiCorp&#8217;s <a href="https://app.vagrantup.com/ubuntu/boxes/xenial64">ubuntu/xenial64</a> base-box image. I just know this will continue to be an issue on Ubuntu and especially LTS versions, which remain stagnant due to being Long Term Service (LTS) versions.</p>
+<p>Why? Cause I had a nagging urge to get down with some Angular 4, Ionic and Cordova nastiness, right after a major geographic move to one of the most expensive cities on the planet, carrying only the clothes that I wore, books and harddrives. No, I am not always that extreme and spontaneous, but it was high-time for a drastic change of venue, a realignment of values, pruning of the fruit bearing plants and purge of old demons.</p>
+<p>If you&#8217;re used to that Debian (viz. Ubuntu 16.0.4 LTS) posix environment, you&#8217;re used to package management via the &#8220;<strong>apt-get</strong>&#8221; program. With Angular 4, you will need the <strong>NodeJS</strong> package, which maxes out at a supported level of <strong>version 4.2.6</strong> on that distribution (as per the date of writing, August 2017).</p>
+<h3>Symptoms of a Bad Angular 4 Installation</h3>
+<p>Installing Angular with the Node Package Manager (npm) via the new command-line interface, &#8220;@angular/cli&#8221;, version 1.3.2, when your NodeJS is less than version 6 will shower you with errors. You know you are a dinosaur if you try testing your post install&#8217;s version with Angular&#8217;s &#8220;<strong>ng -v</strong>&#8221; command, and you get an error from the CliConfig class&#8217;s 4th parameter (fallbacks= []); &#8220;Unexpected Identifier&#8221; .  If you then go to test your Nodejs version with &#8220;node &#8211;version&#8221; and you get the command not found and a suggestion to install the <strong>nodejs-legacy</strong> package, you need to dance the Time Warp here too.</p>
+<p>We will now quickly skim over the following proper start with node version (in our example, <a href="https://www.metachris.com/2017/01/how-to-install-nodejs-6-lts-on-ubuntu-and-centos">while version 8 is already released</a>) 6.11.2. Carry on at your own risk. Remember, this cures the symptoms above for not having the proper NodeJS to successfully run Angular 4.</p>
+<h3>A FIX: Update Debian Packages for Apt-Get Installation of NodeJS</h3>
+<ol>
+<li style="list-style-type:none;">
+<ol>
+<li><strong>Create a source list file</strong> and a the following contents:
+<div style="background-color:#000000;color:#cfcfcf;clear:both;">
+<p>&gt; sudo vim /etc/apt/sources.list.d/nodesource.list</p>
+</div>
+<p><strong>and add the following two lines</strong> to the contents, replacing the &#8220;node_6.x&#8221;, with the desired version; for example, &#8220;node_7.x&#8221;, et cetera :</p>
+<div style="background-color:#000000;color:#cfcfcf;clear:both;">
+<p>deb <a href="https://deb.nodesource.com/node_6.x" rel="nofollow">https://deb.nodesource.com/node_6.x</a> xenial main<br />
+deb-src <a href="https://deb.nodesource.com/node_6.x" rel="nofollow">https://deb.nodesource.com/node_6.x</a> xenial main</p>
+</div>
+</li>
+<li><strong>Get the GPG signing keys</strong> from the <a href="http://nodesource.com">NodeSource</a> for these files or you may get the error No PUB_KEY in the following step for an update.
+<div style="background-color:#000000;color:#cfcfcf;clear:both;">
+<p>&gt; curl -s <a href="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" rel="nofollow">https://deb.nodesource.com/gpgkey/nodesource.gpg.key</a> | sudo apt-key add &#8211;</p>
+</div>
+<p>This essentially will prepare to tell apt that there is a newer version of NodeJS available, which was all that was blocking you; we hope.</li>
+<li>Now <strong>update your Apt&#8217;s repository</strong> knowledge
+<div style="background-color:#000000;color:#cfcfcf;clear:both;">
+<p>&gt; sudo apt-get update</p>
+</div>
+<p>If you get a NO PUB_KEY GPG error, go back to step 2 and repeat.</li>
+<li><strong>Verify</strong> that the right <strong>version of NodeJS</strong> is now known by apt-get
+<div style="background-color:#000000;color:#cfcfcf;clear:both;">
+<p>&gt; sudo apt-cache policy nodejs</p>
+</div>
+<p>You should see the something similar to the following output, had you added the node_6.x version.</p>
+<div style="background-color:#000000;color:#cfcfcf;clear:both;">
+<p>Version table:<br />
+6.2.1-1nodesource1~xenial1 500<br />
+500 <a href="https://deb.nodesource.com/node_6.x" rel="nofollow">https://deb.nodesource.com/node_6.x</a> xenial/main amd64 Packages<br />
+4.2.6~dfsg-1ubuntu4 500<br />
+500 <a href="http://archive.ubuntu.com/ubuntu" rel="nofollow">http://archive.ubuntu.com/ubuntu</a> xenial/universe amd64 Packages</p>
+</div>
+</li>
+<li><strong>Finally, Install the NodeJS</strong> binary
+<div style="background-color:#000000;color:#cfcfcf;clear:both;">
+<p>&gt; sudo apt-get install nodejs</p>
+</div>
+</li>
+<li><strong>Test your running version</strong> of NodeJS with the following command.
+<div style="background-color:#000000;color:#cfcfcf;clear:both;">
+<p>&gt; nodejs &#8211;version</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+<p>I am not a technical writer, but I know some. Feel free to join them in rants, raves, critique and add something positive in the comments below.</p>
+<p>This approach seemed easier than <a href="https://nodejs.org/en/download/">downloading the source code</a> and using <a href="https://help.ubuntu.com/community/CheckInstall">checkinstall</a>, which died on updating apt&#8217;s cache because the version started with a non-numerical &#8220;v&#8221;.</p><br />  <a rel="nofollow" href="http://feeds.wordpress.com/1.0/gocomments/weberstudioblog.wordpress.com/1715/"><img alt="" border="0" src="http://feeds.wordpress.com/1.0/comments/weberstudioblog.wordpress.com/1715/" /></a> <img alt="" border="0" src="https://pixel.wp.com/b.gif?host=weberstudioblog.wordpress.com&#038;blog=123611274&#038;post=1715&#038;subd=weberstudioblog&#038;ref=&#038;feed=1" width="1" height="1" />
+  </div>
+</body>
+</html>
