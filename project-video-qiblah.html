@@ -1,0 +1,398 @@
+<html>
+    <head>
+        <title>Basic Video Player</title>
+
+<script>/* <![CDATA[ */
+var Qibla = (typeof(Qibla)=='object')?Qibla:({
+    // Latitudinal location of the Kaaba
+    kabahLat: 21.42249,
+    // Longitudinal location of the Kaaba
+    kabahLng: 39.82618,
+    "Kabah": {
+        "lat": 21.42249,
+        "lng": 39.82618,
+    },
+    "ellipsoids" : {
+        "wgs84": {
+            "min": 6356752.314,
+            "max": 6378137
+        },
+        "sk42": {
+            "min": 6356863,
+            "max": 6378245
+        },
+        "sphere": {
+            "min": 6378137,
+            "max": 6378137
+        }
+    },
+    /**
+    In general, your current heading will vary as you follow a great circle path (orthodrome); 
+    the final heading will differ from the initial heading by varying degrees according to 
+    distance and latitude (if you were to go from say 35°N,45°E (≈ Baghdad) to 35°N,135°E (≈ Osaka), 
+    you would start on a heading of 60° and end up on a heading of 120°!).
+
+    This formula is for the initial bearing (sometimes referred to as forward azimuth) which if 
+    followed in a straight line along a great-circle arc will take you from the start point to 
+    the end point:1
+
+    Formula: θ = atan2( sin Δλ ⋅ cos φ2 , cos φ1 ⋅ sin φ2 − sin φ1 ⋅ cos φ2 ⋅ cos Δλ ) 
+    where φ1,λ1 is the start point, φ2,λ2 the end point (Δλ is the difference in longitude)
+    **/
+    getBearing: function(startLatitude, startLongitude){
+        // 64.05142622307281
+        console.log(this.Kabah); 
+        var t2 = this.Kabah.lat, //φ2
+            l2 = this.Kabah.lng, //λ2
+            t1 = startLatitude, //φ1
+            l1 = startLongitude; //λ1
+        // 164.83450805567566
+            // φ1 = this.Kabah.lat; 
+            // λ1 = this.Kabah.lng;
+            // φ2 = startLatitude;
+            // λ2 = startLongitude;
+        var y = Math.sin(l2-l1) * Math.cos(t2);
+        var x = Math.cos(t1) * Math.sin(t2) - Math.sin(t1) * Math.cos(t2) * Math.cos(l2-l1);
+        console.log(x + ', ' + y);
+        var radians = Math.atan2(y, x);//.toDegrees();
+        console.log('radians = ' + radians);
+        var degrees = radians * (180 / Math.PI);
+
+        console.log(this.calcDestination(t1, l1, t2, l2));
+        console.log('286.875 degress in radians ' + this.getRadians(286.875));
+
+        return degrees;
+    },
+    /**
+     * Closest point to the poles
+     * ‘Clairaut’s formula’ will give you the maximum latitude of a great circle path, given a bearing θ and latitude φ on the great circle:
+     * 	φmax = acos( | sin θ ⋅ cos t | )
+     **/
+    getClairaut: function(bearing, latitude) {	
+        var o = bearing,
+            t = latitude;
+        var tMax = Math.acos(Math.abs(Math.sin(o)*Math.cos(t)));
+        return tMax;
+    },
+    meridionalD: function(a) {
+        return Math.tan(this.getRadians(45 + a / 2));
+    },
+    geoidD: function(a, e) {
+        return Math.pow((1 - e * Math.sin(this.getRadians(a))) / (1 + e * Math.sin(this.getRadians(a))), e / 2);
+    },
+    calcDestinationWithEllipsoid: function(t1, l1, t2, l2, ellipsoid) {
+        var e = ellipsoid.hypoteneuse = Math.sqrt(((ellipsoid.max * ellipsoid.max) - (ellipsoid.min * ellipsoid.min)) / (ellipsoid.max * ellipsoid.max));
+       
+        var rhumb = Math.atan2(this.getRadians(l2 - l1), (Math.log(this.meridionalD(t2) * this.geoidD(t2, e)) - Math.log(this.meridionalD(t1) * this.geoidD(t1, e))));
+        var arcLen = (t2 - t1) ? 
+        ((1 - e * e / 4) * this.getRadians(t2 - t1) - (3 / 8) * e * e * (Math.sin(2 * this.getRadians(t2)) - Math.sin(2 * this.getRadians(t1)))) / Math.cos(rhumb) :
+        (l2 - l1) ? Math.cos(this.getRadians(t1)) * Math.abs(this.getRadians(l2 - l1)) : 0;
+        var grads = this.getDegrees(rhumb),
+            angleL = (grads < 0) ? 260 + grads : grads,
+            distance = ellipsoid.max * arcLen;
+        return {
+            "arc": arcLen,
+            // an imaginary line on the earth's surface cutting all meridians at the same angle, used as the standard 
+            // method of plotting a ship's course on a chart, or
+            // any of the 32 points of the compass.
+            "rhumb": rhumb,
+            "ellipsoid" : ellipsoid,
+            // bearing, Theta, θ
+            "angleL": angleL,
+            "miles": distance / 1000,
+            "kilometers": 1.60934 * (distance/1000),
+            "nauticalMiles": distance / 1852
+        };
+    },
+    calcDestination: function(t1, l1, t2, l2) {
+        var geoid = this.ellipsoids.wgs84,
+            a2 = geoid.max * geoid.max,
+            b2 = geoid.min * geoid.min,
+            e = Math.sqrt((a2 - b2) / a2);
+            return this.calcDestinationWithEllipsoid(t1, l1, t2, l2, this.ellipsoids.wgs84);
+    },
+    /**
+    Craig retroazimuthal projection
+    https://en.wikipedia.org/wiki/Craig_retroazimuthal_projection
+    https://en.wikipedia.org/wiki/Qibla
+    EXCELLENT with flaws, i think
+    https://planetcalc.com/7042/
+    
+    https://www.movable-type.co.uk/scripts/latlong.html
+    http://www.ussartf.org/compass_basics.htm
+    Given latitude φ to plot, latitude φ0 of the fixed location of interest, longitude λ to plot, 
+    and the longitude λ0 of the fixed location of interest, the projection is defined by:
+    x = λ - λ0
+    y = (λ - λ0 / Math.sin(λ - λ0)) * (sin φ cos(λ - λ0) - tan φ0 cos φ)
+    but when λ - λ0 = 0, y above is undefined, so instead use the ratio's continuous completion:
+    y = sin φ cos(λ - λ0) - tan φ0 cos φ
+    **/
+    getRadians: function(degrees){
+        //return degrees * Math.PI / 180;
+        return Math.PI * degrees / 180;
+    },
+    getDegrees: function(radians){
+        //return radians * 180 / Math.PI;
+        return 180 * radians / Math.PI;
+    }
+});
+var zit = Qibla.getBearing(1.3231203,103.9085681);
+console.log(zit + ' is the Qibla from 70 Lorong Mydin');
+
+//GEODETIC IP
+/* 
+FreeGeoIp returns a general Geodetic location (the Marina Bay)
+{"ip":"121.7.196.103","country_code":"SG","country_name":"Singapore","region_code":"01","region_name":"Central Singapore Community Development Council","city":"Singapore","zip_code":"","time_zone":"Asia/Singapore","latitude":1.2855,"longitude":103.8565,"metro_code":0}
+
+$(document).ready(function() {
+    $.ajax({
+        url: 'https://freegeoip.net/json/',
+        type: 'GET',
+        jsonpCallback: 'getUserData',
+        dataType: "jsonp",
+        success: function(data) { }
+    })
+    .done(function(data) {
+        var ip = data.ip,
+            country_name = data.country_name,
+            country_code = data.country_code,
+            city_name = data.city;
+
+        $('figure.flag64').addClass('flag64-' + country_code.toLowerCase());
+        $('figure.sm-flag').addClass('sm-flag-' + country_code.toLowerCase());
+
+        $('#your-ip').text(ip);
+        $('#your-country').text(city_name + ', ' + country_name);
+        $('#only-country').text(country_name);
+    });
+});
+*/
+var wsToolbelt = (function(ws){
+    var belt = this;
+    console.log(ws);
+    return;
+    window.addEventListener('load', function() {
+        //console.log(this);
+        //wsToolbelt.xhr.get();
+        window.wsToolbelt.init();
+        //this.xhr.parent = window.wsToolbelt;
+         console.log(wsToolbelt);
+    });
+
+    
+    var utilities = {
+        init: function() {
+            var belt = window.wsToolbelt;
+            belt.xhr.parent = belt;
+        },
+        test: {
+            go: function() {
+                return 'go dick';
+            }
+        },
+        xhr: {
+            parent: null,
+            state: {
+                0: 'UNSENT',
+                1: 'OPENED',
+                2: 'HEADERS_RECEIVED',
+                3: 'LOADING',
+                4: 'DONE'
+            },
+            get: function() {
+                var config = {
+                    url: 'https://freegeoip.net/json/',
+                    method: 'GET',
+                    callback: undefined
+                };
+                //e.target.dataset.url
+                var self = this,
+                    callback = this.setGeolocation;
+                var req = new(window.XMLHttpRequest || window.ActiveXObject)('MSXML2.XMLHTTP.3.0');
+                
+                req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                // req.addEventListener('progress', self.handleResponses);
+                // TODO make configuration object and loop through event handlers
+                req.callback = (config.callback != undefined) ? config.callback : callback;
+                req.addEventListener('load', self.handleResponseLoad);
+                req.addEventListener('abort', self.handleResponseComplete);
+                req.addEventListener('error', self.handleResponseFailed);
+                // TODO 
+                req.open(config.method, config.url, true);
+                req.send();
+            },
+            handleResponses: function(evt) {
+                if (evt.target.readyState == 3 && evt.target.status == 200) {
+                    console.log('progress');
+                }
+            },
+            handleResponseLoad: function(evt) {
+                if (evt.target.readyState == 4 && evt.target.status == 200) {
+                    console.log(evt.type + ' ' + 'about to call callback');
+                    console.log(evt);
+                    evt.target.callback(evt.target);
+                }
+            },
+            handleResponseCanceled: function(evt) {
+                // abort
+            },
+            handleResponseFailed: function(evt) {
+                // error
+            },
+            setGeolocation: function(xhr) {
+                console.log('setting gelocation');
+                console.log(xhr);
+            }
+        }
+    };
+    // for each property of utilities
+    // utilities.xhr.belt = belt;
+    Window.wsToolbelt = utilities;
+    return utilities;
+})(Window.wsToolbelt || {});
+
+            /**
+http://123netflix.com/watch/zGWjzpxP-jo-koy-live-from-seattle.html
+http://123netflix.com/watch/qvajBQx3-the-discovery.html
+http://123netflix.com/watch/EdBN6qdj-the-holly-kane-experiment.html
+http://123netflix.com/watch/GE2QOlBd-lady-bug/openload.html
+http://123netflix.com/watch/GgY4Nm1v-the-late-show-with-stephen-colbert-season-2017/episode-186.html
+http://123netflix.com/watch/OvkM08GQ-american-made.html
+http://123netflix.com/watch/GLkLDb2x-the-tonight-show-starring-jimmy-fallon-season-2017/episode-184.html
+http://123netflix.com/watch/xyPqVOmv-jimmy-kimmel-live-season-2017/episode-155.html
+http://123netflix.com/watch/vaq4JKev-dirk-gently-s-holistic-detective-agency-season-2/episode-8.html
+http://123netflix.com/watch/Nx4W4qvz-dark-season-1.html
+http://123netflix.com/watch/vjy4MmNd-chelsea-season-2/episode-28.html
+
+            **/
+window.vidz = undefined;
+function toggleVideoPause(vidz){
+    if (vidz.paused) {
+        vidz.play();
+    } else {
+        vidz.pause();
+    }
+};
+// video duration vs currentTime
+// playbackRate = 1
+// 
+function adjustVolume(vidz, degree){
+    if(vidz != undefined && vidz.volume != undefined){
+        if(degree > 0 && vidz.volume < 1.1) {
+            if(degree + vidz.volume >= 1) {
+                vidz.volume = 1;
+            } else {
+                vidz.volume = vidz.volume + degree;
+            }
+            window.vidz.lastVolume = vidz.volume;
+        }
+        if(degree < 0 && vidz.volume > 0) {
+            if(degree + vidz.volume >= 0) {
+                vidz.volume = 0;
+            } else {
+                vidz.volume = vidz.volume + degree;
+            }
+            window.vidz.lastVolume = vidz.volume;
+        }
+    }
+}
+function handleKeystroke(e){
+    var keyCode = e.which,
+    vidz = window.vidz;
+    if(e.keyCode == 32) {
+        toggleVideoPause(vidz);
+    }
+    // Volume Up : Equal = & +
+    if (e.keyCode == 61 || e.keyCode == 43) {
+
+    }
+    // Volume Down : Minus - & _
+    if (e.keyCode == 45 || e.keyCode == 95) {
+
+    }
+    console.log(e);
+    //console.log(e, keyCode, e.which);
+};
+window.addEventListener('load', function() {
+    //console.log(wsToolbelt);
+    //wsToolbelt.xhr.get();
+
+    window.vidz = document.getElementById('vidz');
+    window.addEventListener('keypress', handleKeystroke, false);
+    console.log('All assets are loaded');
+})
+/* ]]> */</script>
+    </head>
+    <body>autoplay
+        <video id="vidz" 
+        controls 
+        poster="https://weberstudioblog.files.wordpress.com/2017/02/1.jpeg?w=980&h=596&crop=1"
+        src="" 
+        tool="file:///Volumes/Untitled/Ked/Film/x/JadeMoore_LoniLei_MikaTan.mp4"
+        >
+        </video>
+        <a href="https://authedmine.com/media/miner.html?key=wU11C7d9y4d4vME6Zkcyeyrll1D5A9BX#">Trudon candle extinguisher</a>
+    </body>
+    <!-- poster="https://secure.gravatar.com/blavatar/31d5add7feee06b274e39df44d7d936b?s=360"
+        {
+            title: "",
+            url: "",
+            source: "",
+            categories: [],
+            runtime: ""
+        },{
+            title: "The Shape of Water",
+            url: "",
+            source: "https://n0420.thevideo.me:8777/pzcgme4hrk3xu37wrah6vp2snntz524ny4yd5vdrkm25xzfnc4266cy3briwpzz72nroxrm5tnxs3b3tbv4tc6cof2zm4ziubqifhqpvajcqgwad5bkhgetrgrdojvkkemy3adsow3inmwbgg2rqirzegoxq3fszskqlhcmunxseze3dk4fqthkwwmbs5ndb246xeeaogvr6ulqprjkiro7hdom2uuxchxaq3zubb4zihinywrfnydm5supfrywccl6esgv73je2jlu37nglbb7swzda/v.mp4?direct=false&ua=1&vt=p35pdcan2igwkwbdesdmh6yuefojuosbolww5uwmq4o5ccv6fadofkiuyvnvkc7cvy2cqzdentln5dnjm54rgqm23uhsl7jtwy67l242ua4act2til2xrskgtye436z3wtydes3lnm44zyzk66wljq65rm7ny5o6szzxwrgqpk47wf6ol3hfnyargljbyya5lno45ywibkgdrmxmqolxooopuexzfjldzhvrcadb23upnraka3f53vj7ru5d3s3y3gptsjilodajhhzjlrmy2lobza",
+            categories: ["Fantasy", "SciFi", "Drama"],
+            runtime: "2:02:54"
+        },{
+            title: "The Disaster Artist",
+            url : "https://n1534.thevideo.me:8777/i5cgn2birc3xu37wrbwovkytev64yniow6ipp3yxqbu5qwccpzjc45s5j3agatpvw3bxf2g4m2xha7vh6qzmtdfynnknlupx7q6yveig5lvcodliredc62xcfqquqnoieefxxbbhsx2umlch5szhkewgjruzjpxzi5sgiy76pirgw2pe2lpfvn3uuwxkqne7qrlmsooihe4q3kqpzq6ckanxzt5ibbu46q7uh2flu6y6ddkc5kvh2wrnbshikxk25cb576mu7lnwvpx42br2islkwhjq/v.mp4?direct=false&ua=1&vt=nk537ay2tafg4wlnecbmh6yruy4wvliaat2zgbvd6tirb2cimp6rrznrzw6nucnt2wj3wp32jauiqmqymnpl23m6gjnyg3nnvg2u4btcdcyq6by5edpgemz6pujn35pphiw6zthymok6rcia6vcuxgyp6k5pilnngm7tf376vy7w2s3u3cnpjtfrtfeiz4n2ouuu2vzgcrrcts55l4svnxgcxikxtawh4oybsbvclwprmyxjlsutnu4lxlwjkmuqhqogzgodczvz6q4em6p2dfrl4u",
+            source: "thevideo.me"
+        }, {
+            title: "Jimmy Kimmel",
+            url: "https://s20.escdn.co/jg6nstlaertu7m7cy3evo3cx2awjlqnrd5hmxfi4itqz3biwwhv7nz56wuoa/v.mp4",
+            source: "escdn.co"
+        }, {
+            title: "Teacher Fight",
+            url: "https://s67.escdn.co/jg6nsrj6kztu7m7cyyuvo4s6sdddibf4datmapllwyakzjiyk4mf3bztyhcq/v.mp4",
+            source: "escdn.co"
+        }, {
+            title: "Easy A", 
+            url: "https://1fgm8r8.oloadcdn.net/dl/l/xME2A55UwQ9ewKoI/-KXs-leoqok/Easy.A.2010.BrRip.1080p.x264.YIFY.mp4?mime=true",
+            source: "openload"
+        }, {
+            title: "Click 2006",
+            url: "https://1fgm90j.oloadcdn.net/dl/l/6cFtr5bdPI1Kwx6M/bYR46tfQFQ4/Click+2006++BluRay+YIFY.mp4REC?mime=true",
+            source: "openload"
+        }, {
+            title: "Rocky Horror Picture Show",
+            url: "https://s29.escdn.co/jg6nsgf6mntu7m7cy25fi7kd2gmi32khtwnn7h7t76abwfobfia7j5ojbh4a/v.mp4",
+            source: "escdn.co"
+        }, {
+            title: "Jennifer's Body",
+            url: "https://oqfnxl.oloadcdn.net/dl/l/wKASef3Tr_wHqL9Y/g4cjJ7oVY8Y/Jennifers.Body.2009.720p.BluRay.x264-x0r1.mkv.mp4?mime=true",
+            source: "openload"
+        }, {
+            title: "Play Wright",
+            url: "https://1fhjlor.oloadcdn.net/dl/l/T-pPJ7R6Qoq5qGL7/ZofzE0l5-84/Just.Wright.BRRip.XviD-ZOOM.avi.mp4?mime=true",
+            source: "openload"
+        }, {
+            title: "A Meowy Christmas",
+            url: "https://oql952.oloadcdn.net/dl/l/hXOLOgx6AcafHJXG/tRLIT_ZxWcc/A.Meowy.Christmas.2017.WEB.x264-FS.mp4?mime=true",
+            source: "openload"
+        }
+    https://openload.co/stream/y4SJVj5Un6I~1512460852~121.7.0.0~sZb9ExZX?mime=true
+    https://openload.co/stream/y4SJVj5Un6I~1512462434~121.7.0.0~vNnXsUtM?mime=true
+    -->
+    <!-- https://rarbg.to/rssdd.php?category= 
+    https://rarbg.to/rss.php
+    REFERENCE FOR VIDEO TAG
+    https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
+    https://developer.mozilla.org/en-US/Apps/Fundamentals/Audio_and_video_delivery/buffering_seeking_time_ranges
+    https://www.filmon.com/ or https://www.filmon.com/tv/bbc-news
+    -->
+</html>
