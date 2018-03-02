@@ -1,8 +1,13 @@
 <html>
     <head>
         <title>Basic Video Player</title>
-
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script>/* <![CDATA[ */
+$.get(window.location.protocol+'//api.weberstudio.net/test.json', function(data) {
+  console.log('*****');
+  console.log(data);
+  console.log('*****');
+}
 var Qibla = (typeof(Qibla)=='object')?Qibla:({
     // Latitudinal location of the Kaaba
     kabahLat: 21.42249,
