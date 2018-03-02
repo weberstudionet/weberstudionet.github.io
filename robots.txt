@@ -1,5 +1,17 @@
 User-agent: Googlebot
 Disallow: /private/
+User-agent: Googlebot-News
+Disallow: /private/
+User-agent: Googlebot-Image
+Disallow: /private/
+User-agent: Googlebot-Video
+Disallow: /private/
+User-agent: Googlebot-Mobile
+Disallow: /private/
+User-agent: Mediapartners-Google
+Disallow: /private/
+User-agent: Adsbot-Google
+Disallow: /private/
 # http:www.sogou.com/docs/help/webermasters.htm
 # submit at:
 #  http://fankui.help.sogou.com/index.php/web/web/index?type=4
