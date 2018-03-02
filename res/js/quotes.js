@@ -32,7 +32,7 @@ var quotes = {
     self.current.author += (author.middle_name !== null || author.middle_name != '')?' ' + author.middle_name + ' ':' '; 
     self.current.author += author.last_name;
     self.current.location = (self.quotes[id].location !== null)?self.quotes[id].location:'';
-    cursor = self.quotes[id].group - 1;
+    cursor = self.quotes[id].group_id - 1;
     self.current.category = self.categories[cursor].group;
   },
   renderCurrent: function(id) {
