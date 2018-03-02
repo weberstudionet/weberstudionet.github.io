@@ -20,12 +20,16 @@
       window.addEventListener("load", function(){
         //TODO stricter search policy
         var rosette =[
-          {name: "quote", value: quotes.current.quote},
-          {name: "venue", value: quotes.current.location},
-          {name: "author", value: quotes.current.author}
+          {name: "quote", value: quotes.current.quote, target:undefined},
+          {name: "venue", value: quotes.current.location, target:undefined},
+          {name: "author", value: quotes.current.author, target:undefined}
         ];
         rosette.forEach(function(val,idx,ary){
-          // document.getElementsByClassName('venue');
+          val.target = document.getElementsByClassName(val.name);
+          if(val.target.length>0){
+            val.target[0].innerHTML = val.value;
+          }
+          
           console.log(idx);
           console.log(val);
           console.log(ary);
