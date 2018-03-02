@@ -18,15 +18,30 @@
           ran = self.getRandom(self.quotes.length);
       self.setCurrent(ran);
       window.addEventListener("load", function(){
+        //TODO stricter search policy
+        var rosette =[
+          {name: "quote", value: quotes.current.quote},
+          {name: "venue", value: quotes.current.location},
+          {name: "author", value: quotes.current.author}
+        ];
+        rosette.forEach(function(val,idx,ary){
+          // document.getElementsByClassName('venue');
+          console.log(idx);
+          console.log(val);
+          console.log(ary);
+        })
+        // $('span.quote').text(quotes.current.quote);
+        // $('span.venue').text(quotes.current.location);
+        // $('span.author').text(quotes.current.author);
       });
     },
-    getRandom: function(max) {
+    getRandom: function(max){
       return Math.floor(Math.random() * max);
     },
     /**
      * Set this objects, current quote given the index of the quote
      */
-    setCurrent: function(id) {
+    setCurrent: function(id){
       var self = this;
       self.current.quote = self.quotes[id].text;
       var cursor = self.quotes[id].author_id - 1;
@@ -47,6 +62,5 @@
     window.quotes = quotes;
   };
   quotes.load();
-})(window.quotes || {});  
-// quotes.load();
+})(window.quotes || {});
 
