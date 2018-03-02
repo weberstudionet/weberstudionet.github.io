@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <script src="/res/js/quotes.js" ></script>
+  <script src="http://weberstudionet.github.io/res/js/quotes.js" ></script>
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
@@ -14,6 +14,8 @@
       enable_page_level_ads: true
     });
   </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Allerta" rel="stylesheet">
 
   <!-- Latest compiled and minified CSS -->
@@ -27,6 +29,12 @@
   <!-- quick cookie compliance from https://cookieconsent.insites.com -->
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
   <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+  <style>
+    /* override coookieconsent2's css */
+      .body{
+        font-family: 'Fira Sans', sans-serif, 'Helvetica Neue', Helvetica, Arial;
+      }
+  </style>
   <script>
   window.addEventListener("load", function(){
   window.cookieconsent.initialise({
@@ -42,30 +50,30 @@
   </script>
 </head>
 <body>
-  <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color:darkolivegreen;";>
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsing-navbar">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
+          <span class="icon-bar">₩§</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <h3 class="pull-left" style="color:#ffffff; margin: .5em 1em;">₩eber§tudio.N€T</h3>
+        <h3 class="pull-left" style="color:#ffffff; margin: .5em 1em;"><a href="/">₩eber§tudio.N€T</a></h3>
       </div>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
+<!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="collapsing-navbar">
-          <ul class="nav navbar-nav">
-              <li><a href="/">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#portfolio">Portfolio</a></li>
-              <li><a href="/#articles">Blog</a></li>
-              <li><a href="https://weberstudioblog.wordpress.com/contact/">Contact</a></li>
-          </ul>
+        <ul class="nav navbar-nav">
+            <li><a href="#">About</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="/#articles">Blog</a></li>
+            <li><a href="https://weberstudioblog.wordpress.com/contact/">Contact</a></li>
+        </ul>
       </div>
-    </div>
+    </div>        
   </nav>
+  <p style="height:50px;" role="region"><!-- necessary for fixed navbar --></p>
 
 
 <div class="splash" style="display:none;">
@@ -73,15 +81,28 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-md-6">
-<section class="dailyquote">
-  <span class="quote" data-b="&laquo;" data-a="&raquo;">I'm not in this world to live up to your expectations and you're not in this world to live up to mine.</span>
-  <span class="venue"><a href="https://www.goodreads.com/">... More great quotes at GoodReads.com</a></span>
-  <span class="author" data-b="~">Bruce Lee</span>
-</section>
+    <div id="" class="col-xs-12 col-md-6 carousel slide" data-ride="carousel">
+      <!-- TODO kill the carousel !!!!!
+        <div class="carousel-inner" style="background-color:rgb(107, 142, 35);">
+            <div class="item active">
+              <h3>Domain Name Registration</h3>
+              <h3>eCommmerce Solutions, News &amp; Custom Work</h3>
+            </div>
+            <div class="item">
+              <h3>CryptoCurrency</h3>
+            </div>
+            <div class="item">
+              <h3>News And Articles</h3>
+            </div>
+          </div>
+        -->
     </div>
     <div class="col-xs-12 col-md-6">
-
+      <section class="dailyquote">
+        <span class="quote" data-b="&laquo;" data-a="&raquo;">I'm not in this world to live up to your expectations and you're not in this world to live up to mine.</span>
+        <span class="venue"><a href="https://www.goodreads.com/">... More great quotes at GoodReads.com</a></span>
+        <span class="author" data-b="~">Bruce Lee</span>
+      </section>
     </div>
   </div>
 <div id="articles">
