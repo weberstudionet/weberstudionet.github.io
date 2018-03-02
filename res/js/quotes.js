@@ -29,14 +29,7 @@
           if(val.target.length>0){
             val.target[0].innerHTML = val.value;
           }
-          
-          console.log(idx);
-          console.log(val);
-          console.log(ary);
         })
-        // $('span.quote').text(quotes.current.quote);
-        // $('span.venue').text(quotes.current.location);
-        // $('span.author').text(quotes.current.author);
       });
     },
     getRandom: function(max){
