@@ -21,4 +21,4 @@ Disallow: /private/
 User-agent: *
 Allow: /
 
-Sitemap: http://www.weberstudio.net/sitemap.xml
+Sitemap: http://weberstudio.net/sitemap.xml
