@@ -23,7 +23,9 @@ Disallow: /private/
 # http://www.censys.io based in Germany
 User-agent: Censys.io
 Disallow: /private/ 
-
+# http://yandex.com/bots or https://yandex.com/support/webmaster/robot-workings/robot.xml
+User-agent: YandexBot
+Disallow: /private/
 User-agent: *
 Allow: /
 
