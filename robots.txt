@@ -21,11 +21,15 @@ Disallow: /private/
 User-agent: pdrlabs.net
 Disallow: /private/
 # http://www.censys.io based in Germany
-User-agent: Censys.io
+User-agent: Censys
 Disallow: /private/ 
 # http://yandex.com/bots or https://yandex.com/support/webmaster/robot-workings/robot.xml
 User-agent: YandexBot
 Disallow: /private/
+# http://github.com/robertdavidgraham/masscan
+User-agent: masscan
+Disallow: /private/
+# CATCH ALL
 User-agent: *
 Allow: /
 
