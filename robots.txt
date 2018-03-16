@@ -29,6 +29,9 @@ Disallow: /private/
 # http://github.com/robertdavidgraham/masscan
 User-agent: masscan
 Disallow: /private/
+# Mozilla's http://moz.com/researchtools/ose/dotbot
+User-agent: dotbot
+Disallow: /private/
 # CATCH ALL
 User-agent: *
 Allow: /
