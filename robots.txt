@@ -32,6 +32,9 @@ Disallow: /private/
 # Mozilla's http://moz.com/researchtools/ose/dotbot
 User-agent: dotbot
 Disallow: /private/
+# Microsoft's Bingbot http://www.bing.com/bingbot.htm
+User-agent: bingbot
+Disallow: /private/
 # CATCH ALL
 User-agent: *
 Allow: /
